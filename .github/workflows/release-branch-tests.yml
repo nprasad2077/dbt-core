@@ -21,7 +21,9 @@ on:
   workflow_dispatch: # for manual triggering
 
 # no special access is needed
-permissions: read-all
+permissions:
+  contents: read
+  actions: write
 
 jobs:
   run_tests:
