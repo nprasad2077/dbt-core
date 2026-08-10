@@ -241,6 +241,7 @@
           ]
         },
         "tags": {
+          "default": [],
           "anyOf": [
             {
               "$ref": "#/definitions/StringOrArrayOfStrings"
@@ -686,6 +687,25 @@
           "type": "string",
           "enum": [
             "service"
+          ]
+        }
+      ]
+    },
+    "ComputePlatform": {
+      "description": "Selects the compute target a model's DML is executed against.\n\n`Default` uses the profile's adapter. A run implementation may honor an alternate target for other variants; parse/compile/render and introspection are unaffected by this selection.",
+      "oneOf": [
+        {
+          "description": "Execute on the profile's (default) adapter.",
+          "type": "string",
+          "enum": [
+            "default"
+          ]
+        },
+        {
+          "description": "Execute on the alternate compute target.",
+          "type": "string",
+          "enum": [
+            "alt"
           ]
         }
       ]
@@ -1250,6 +1270,12 @@
             }
           ]
         },
+        "engine": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
         "error_if": {
           "type": [
             "string",
@@ -1307,16 +1333,10 @@
         "hours_to_expiration": {
           "anyOf": [
             {
-              "type": [
-                "integer",
-                "null"
-              ],
-              "format": "uint64",
-              "minimum": 0.0
+              "$ref": "#/definitions/StringOrInteger"
             },
             {
-              "type": "string",
-              "pattern": "^\\{.*\\}$"
+              "type": "null"
             }
           ]
         },
@@ -1567,6 +1587,16 @@
             }
           ]
         },
+        "order_by": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/StringOrArrayOfStrings"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
         "partition_by": {
           "anyOf": [
             {
@@ -1610,6 +1640,15 @@
               "$ref": "#/definitions/PrimaryKeyConfig"
             }
           ]
+        },
+        "query_settings": {
+          "type": [
+            "object",
+            "null"
+          ],
+          "additionalProperties": {
+            "$ref": "#/definitions/AnyValue"
+          }
         },
         "query_tag": {
           "anyOf": [
@@ -1729,6 +1768,15 @@
             }
           ]
         },
+        "settings": {
+          "type": [
+            "object",
+            "null"
+          ],
+          "additionalProperties": {
+            "$ref": "#/definitions/AnyValue"
+          }
+        },
         "severity": {
           "anyOf": [
             {
@@ -1805,6 +1853,16 @@
           "type": [
             "string",
             "null"
+          ]
+        },
+        "state": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/DataTestState"
+            },
+            {
+              "type": "null"
+            }
           ]
         },
         "static_analysis": {
@@ -1940,6 +1998,26 @@
             }
           ]
         },
+        "ttl": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "unlogged": {
+          "anyOf": [
+            {
+              "type": [
+                "boolean",
+                "null"
+              ]
+            },
+            {
+              "type": "string",
+              "pattern": "^\\{.*\\}$"
+            }
+          ]
+        },
         "use_safer_relation_operations": {
           "anyOf": [
             {
@@ -2027,6 +2105,51 @@
           "anyOf": [
             {
               "$ref": "#/definitions/StaticAnalysisOffReason"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "additionalProperties": false
+    },
+    "DataTestState": {
+      "description": "The dbt State configs supported on data tests: only `require_fresh_data_from`, `evaluate_volatile_sql` and `compare_unrendered_code` (snapshots reuse the full `ModelState`). Other keys are not fields here, so they are flagged as unknown keys at parse time.",
+      "type": "object",
+      "properties": {
+        "compare_unrendered_code": {
+          "anyOf": [
+            {
+              "type": [
+                "boolean",
+                "null"
+              ]
+            },
+            {
+              "type": "string",
+              "pattern": "^\\{.*\\}$"
+            }
+          ]
+        },
+        "evaluate_volatile_sql": {
+          "anyOf": [
+            {
+              "type": [
+                "boolean",
+                "null"
+              ]
+            },
+            {
+              "type": "string",
+              "pattern": "^\\{.*\\}$"
+            }
+          ]
+        },
+        "require_fresh_data_from": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/UpdatesOn"
             },
             {
               "type": "null"
@@ -3316,6 +3439,12 @@
             }
           ]
         },
+        "engine": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
         "entry_point": {
           "type": [
             "string",
@@ -3355,16 +3484,10 @@
         "hours_to_expiration": {
           "anyOf": [
             {
-              "type": [
-                "integer",
-                "null"
-              ],
-              "format": "uint64",
-              "minimum": 0.0
+              "$ref": "#/definitions/StringOrInteger"
             },
             {
-              "type": "string",
-              "pattern": "^\\{.*\\}$"
+              "type": "null"
             }
           ]
         },
@@ -3596,6 +3719,16 @@
             "null"
           ]
         },
+        "order_by": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/StringOrArrayOfStrings"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
         "packages": {
           "anyOf": [
             {
@@ -3649,6 +3782,15 @@
               "$ref": "#/definitions/PrimaryKeyConfig"
             }
           ]
+        },
+        "query_settings": {
+          "type": [
+            "object",
+            "null"
+          ],
+          "additionalProperties": {
+            "$ref": "#/definitions/AnyValue"
+          }
         },
         "query_tag": {
           "anyOf": [
@@ -3774,6 +3916,15 @@
             }
           ]
         },
+        "settings": {
+          "type": [
+            "object",
+            "null"
+          ],
+          "additionalProperties": {
+            "$ref": "#/definitions/AnyValue"
+          }
+        },
         "skip_matched_step": {
           "anyOf": [
             {
@@ -3881,6 +4032,7 @@
           ]
         },
         "tags": {
+          "default": [],
           "anyOf": [
             {
               "$ref": "#/definitions/StringOrArrayOfStrings"
@@ -3953,6 +4105,12 @@
             }
           ]
         },
+        "ttl": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
         "type": {
           "default": "scalar",
           "anyOf": [
@@ -3961,6 +4119,20 @@
             },
             {
               "type": "null"
+            }
+          ]
+        },
+        "unlogged": {
+          "anyOf": [
+            {
+              "type": [
+                "boolean",
+                "null"
+              ]
+            },
+            {
+              "type": "string",
+              "pattern": "^\\{.*\\}$"
             }
           ]
         },
@@ -4981,6 +5153,16 @@
             "null"
           ]
         },
+        "alt_compute": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/ComputePlatform"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
         "as_columnstore": {
           "anyOf": [
             {
@@ -5227,6 +5409,15 @@
             }
           ]
         },
+        "constraints": {
+          "type": [
+            "array",
+            "null"
+          ],
+          "items": {
+            "$ref": "#/definitions/ModelConstraint"
+          }
+        },
         "contract": {
           "anyOf": [
             {
@@ -5387,6 +5578,12 @@
             }
           ]
         },
+        "engine": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
         "event_time": {
           "type": [
             "string",
@@ -5461,16 +5658,10 @@
         "hours_to_expiration": {
           "anyOf": [
             {
-              "type": [
-                "integer",
-                "null"
-              ],
-              "format": "uint64",
-              "minimum": 0.0
+              "$ref": "#/definitions/StringOrInteger"
             },
             {
-              "type": "string",
-              "pattern": "^\\{.*\\}$"
+              "type": "null"
             }
           ]
         },
@@ -5838,6 +6029,16 @@
             }
           ]
         },
+        "order_by": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/StringOrArrayOfStrings"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
         "packages": {
           "anyOf": [
             {
@@ -5945,6 +6146,15 @@
             "string",
             "null"
           ]
+        },
+        "query_settings": {
+          "type": [
+            "object",
+            "null"
+          ],
+          "additionalProperties": {
+            "$ref": "#/definitions/AnyValue"
+          }
         },
         "query_tag": {
           "anyOf": [
@@ -6072,6 +6282,15 @@
               "pattern": "^\\{.*\\}$"
             }
           ]
+        },
+        "settings": {
+          "type": [
+            "object",
+            "null"
+          ],
+          "additionalProperties": {
+            "$ref": "#/definitions/AnyValue"
+          }
         },
         "skip_matched_step": {
           "anyOf": [
@@ -6282,6 +6501,12 @@
             }
           ]
         },
+        "ttl": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
         "unique_key": {
           "anyOf": [
             {
@@ -6289,6 +6514,20 @@
             },
             {
               "type": "null"
+            }
+          ]
+        },
+        "unlogged": {
+          "anyOf": [
+            {
+              "type": [
+                "boolean",
+                "null"
+              ]
+            },
+            {
+              "type": "string",
+              "pattern": "^\\{.*\\}$"
             }
           ]
         },
@@ -6726,6 +6965,20 @@
     "ModelState": {
       "type": "object",
       "properties": {
+        "compare_unrendered_code": {
+          "anyOf": [
+            {
+              "type": [
+                "boolean",
+                "null"
+              ]
+            },
+            {
+              "type": "string",
+              "pattern": "^\\{.*\\}$"
+            }
+          ]
+        },
         "evaluate_volatile_sql": {
           "anyOf": [
             {
@@ -7618,6 +7871,12 @@
             }
           ]
         },
+        "engine": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
         "event_time": {
           "type": [
             "string",
@@ -7676,16 +7935,10 @@
         "hours_to_expiration": {
           "anyOf": [
             {
-              "type": [
-                "integer",
-                "null"
-              ],
-              "format": "uint64",
-              "minimum": 0.0
+              "$ref": "#/definitions/StringOrInteger"
             },
             {
-              "type": "string",
-              "pattern": "^\\{.*\\}$"
+              "type": "null"
             }
           ]
         },
@@ -7921,6 +8174,16 @@
             }
           ]
         },
+        "order_by": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/StringOrArrayOfStrings"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
         "partition_by": {
           "anyOf": [
             {
@@ -7994,6 +8257,15 @@
               "$ref": "#/definitions/PrimaryKeyConfig"
             }
           ]
+        },
+        "query_settings": {
+          "type": [
+            "object",
+            "null"
+          ],
+          "additionalProperties": {
+            "$ref": "#/definitions/AnyValue"
+          }
         },
         "query_tag": {
           "anyOf": [
@@ -8127,6 +8399,15 @@
               "pattern": "^\\{.*\\}$"
             }
           ]
+        },
+        "settings": {
+          "type": [
+            "object",
+            "null"
+          ],
+          "additionalProperties": {
+            "$ref": "#/definitions/AnyValue"
+          }
         },
         "skip_matched_step": {
           "anyOf": [
@@ -8298,6 +8579,26 @@
             }
           ]
         },
+        "ttl": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "unlogged": {
+          "anyOf": [
+            {
+              "type": [
+                "boolean",
+                "null"
+              ]
+            },
+            {
+              "type": "string",
+              "pattern": "^\\{.*\\}$"
+            }
+          ]
+        },
         "use_safer_relation_operations": {
           "anyOf": [
             {
@@ -8413,6 +8714,7 @@
       "type": "object",
       "properties": {
         "meta": {
+          "default": {},
           "type": [
             "object",
             "null"
@@ -8791,6 +9093,12 @@
             }
           ]
         },
+        "engine": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
         "event_time": {
           "type": [
             "string",
@@ -8860,16 +9168,10 @@
         "hours_to_expiration": {
           "anyOf": [
             {
-              "type": [
-                "integer",
-                "null"
-              ],
-              "format": "uint64",
-              "minimum": 0.0
+              "$ref": "#/definitions/StringOrInteger"
             },
             {
-              "type": "string",
-              "pattern": "^\\{.*\\}$"
+              "type": "null"
             }
           ]
         },
@@ -9120,6 +9422,16 @@
             }
           ]
         },
+        "order_by": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/StringOrArrayOfStrings"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
         "partition_by": {
           "anyOf": [
             {
@@ -9193,6 +9505,15 @@
               "$ref": "#/definitions/PrimaryKeyConfig"
             }
           ]
+        },
+        "query_settings": {
+          "type": [
+            "object",
+            "null"
+          ],
+          "additionalProperties": {
+            "$ref": "#/definitions/AnyValue"
+          }
         },
         "query_tag": {
           "anyOf": [
@@ -9327,6 +9648,15 @@
             }
           ]
         },
+        "settings": {
+          "type": [
+            "object",
+            "null"
+          ],
+          "additionalProperties": {
+            "$ref": "#/definitions/AnyValue"
+          }
+        },
         "skip_matched_step": {
           "anyOf": [
             {
@@ -9397,6 +9727,16 @@
           "type": [
             "string",
             "null"
+          ]
+        },
+        "state": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/ModelState"
+            },
+            {
+              "type": "null"
+            }
           ]
         },
         "static_analysis": {
@@ -9536,6 +9876,12 @@
             }
           ]
         },
+        "ttl": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
         "unique_key": {
           "anyOf": [
             {
@@ -9543,6 +9889,20 @@
             },
             {
               "type": "null"
+            }
+          ]
+        },
+        "unlogged": {
+          "anyOf": [
+            {
+              "type": [
+                "boolean",
+                "null"
+              ]
+            },
+            {
+              "type": "string",
+              "pattern": "^\\{.*\\}$"
             }
           ]
         },
@@ -10017,6 +10377,12 @@
             }
           ]
         },
+        "engine": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
         "event_time": {
           "type": [
             "string",
@@ -10070,16 +10436,10 @@
         "hours_to_expiration": {
           "anyOf": [
             {
-              "type": [
-                "integer",
-                "null"
-              ],
-              "format": "uint64",
-              "minimum": 0.0
+              "$ref": "#/definitions/StringOrInteger"
             },
             {
-              "type": "string",
-              "pattern": "^\\{.*\\}$"
+              "type": "null"
             }
           ]
         },
@@ -10317,6 +10677,16 @@
             }
           ]
         },
+        "order_by": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/StringOrArrayOfStrings"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
         "partition_by": {
           "anyOf": [
             {
@@ -10360,6 +10730,15 @@
               "$ref": "#/definitions/PrimaryKeyConfig"
             }
           ]
+        },
+        "query_settings": {
+          "type": [
+            "object",
+            "null"
+          ],
+          "additionalProperties": {
+            "$ref": "#/definitions/AnyValue"
+          }
         },
         "query_tag": {
           "anyOf": [
@@ -10473,6 +10852,15 @@
               "pattern": "^\\{.*\\}$"
             }
           ]
+        },
+        "settings": {
+          "type": [
+            "object",
+            "null"
+          ],
+          "additionalProperties": {
+            "$ref": "#/definitions/AnyValue"
+          }
         },
         "skip_matched_step": {
           "anyOf": [
@@ -10655,6 +11043,26 @@
             }
           ]
         },
+        "ttl": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "unlogged": {
+          "anyOf": [
+            {
+              "type": [
+                "boolean",
+                "null"
+              ]
+            },
+            {
+              "type": "string",
+              "pattern": "^\\{.*\\}$"
+            }
+          ]
+        },
         "use_safer_relation_operations": {
           "anyOf": [
             {
@@ -10794,7 +11202,8 @@
       "enum": [
         "configuredoff",
         "unabletofetchschema",
-        "nodownstream"
+        "nodownstream",
+        "custommaterialization"
       ]
     },
     "StoreFailuresAs": {
@@ -10815,6 +11224,21 @@
           "items": {
             "type": "string"
           }
+        },
+        {
+          "type": "string",
+          "pattern": "^\\{.*\\}$"
+        }
+      ]
+    },
+    "StringOrInteger": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "integer",
+          "format": "int64"
         },
         {
           "type": "string",
@@ -11402,6 +11826,12 @@
             }
           ]
         },
+        "engine": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
         "external_volume": {
           "type": [
             "string",
@@ -11426,16 +11856,10 @@
         "hours_to_expiration": {
           "anyOf": [
             {
-              "type": [
-                "integer",
-                "null"
-              ],
-              "format": "uint64",
-              "minimum": 0.0
+              "$ref": "#/definitions/StringOrInteger"
             },
             {
-              "type": "string",
-              "pattern": "^\\{.*\\}$"
+              "type": "null"
             }
           ]
         },
@@ -11661,6 +12085,16 @@
             }
           ]
         },
+        "order_by": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/StringOrArrayOfStrings"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
         "partition_by": {
           "anyOf": [
             {
@@ -11704,6 +12138,15 @@
               "$ref": "#/definitions/PrimaryKeyConfig"
             }
           ]
+        },
+        "query_settings": {
+          "type": [
+            "object",
+            "null"
+          ],
+          "additionalProperties": {
+            "$ref": "#/definitions/AnyValue"
+          }
         },
         "query_tag": {
           "anyOf": [
@@ -11807,6 +12250,15 @@
             }
           ]
         },
+        "settings": {
+          "type": [
+            "object",
+            "null"
+          ],
+          "additionalProperties": {
+            "$ref": "#/definitions/AnyValue"
+          }
+        },
         "skip_matched_step": {
           "anyOf": [
             {
@@ -11904,6 +12356,7 @@
           ]
         },
         "tags": {
+          "default": [],
           "anyOf": [
             {
               "$ref": "#/definitions/StringOrArrayOfStrings"
@@ -11963,6 +12416,26 @@
           ]
         },
         "transient": {
+          "anyOf": [
+            {
+              "type": [
+                "boolean",
+                "null"
+              ]
+            },
+            {
+              "type": "string",
+              "pattern": "^\\{.*\\}$"
+            }
+          ]
+        },
+        "ttl": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "unlogged": {
           "anyOf": [
             {
               "type": [
