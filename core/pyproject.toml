@@ -48,7 +48,7 @@ dependencies = [
     # ----
     # These packages are major-version-0. Keep upper bounds on upcoming minor versions (which could have breaking changes)
     # and check compatibility / bump in each new minor version of dbt-core.
-    "sqlparse>=0.5.5,<0.6.0",
+    "sqlparse>=0.5.5,<0.7.0",
     # ----
     # These are major-version-0 packages also maintained by dbt-labs.
     # Accept patches but avoid automatically updating past a set minor version range.
@@ -58,7 +58,7 @@ dependencies = [
     "dbt-common>=1.37.5,<2.0",
     "dbt-adapters>=1.24.5,<2.0",
     "dbt-protos>=1.0.514,<2.0",
-    "dbt-core-experimental-parser>=2.0.0a4,<3",
+    "dbt-core-experimental-parser>=2.0.0b1,<3",
     # Bundled plugin: installed by default but opt-in. PluginManager skips loading
     # unless the user passes `--manage-state` on the CLI, sets
     # `DBT_ENGINE_MANAGE_STATE=true`, or sets `manage_state: true` in dbt_project.yml's
